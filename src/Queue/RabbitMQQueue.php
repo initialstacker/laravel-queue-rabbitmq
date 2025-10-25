@@ -48,7 +48,7 @@ class RabbitMQQueue extends Queue implements QueueContract, RabbitMQQueueContrac
      * List of already declared queues.
      */
     protected array $queues = [];
-
+    
     /**
      * List of already bound queues to exchanges.
      */
@@ -62,15 +62,15 @@ class RabbitMQQueue extends Queue implements QueueContract, RabbitMQQueueContrac
     /**
      * Holds the Configuration
      */
-    protected QueueConfig $config;
+    protected QueueConfig $rabbitQueueConfig;
 
     /**
      * RabbitMQQueue constructor.
      */
-    public function __construct(QueueConfig $config)
+    public function __construct(QueueConfig $rabbitQueueConfig)
     {
-        $this->config = $config;
-        $this->dispatchAfterCommit = $config->isDispatchAfterCommit();
+        $this->rabbitQueueConfig = $rabbitQueueConfig;
+        $this->dispatchAfterCommit = $rabbitQueueConfig->isDispatchAfterCommit();
     }
 
     /**
@@ -735,9 +735,9 @@ class RabbitMQQueue extends Queue implements QueueContract, RabbitMQQueueContrac
         return [$destination, $exchange, $exchangeType, $attempts];
     }
 
-    protected function getConfig(): QueueConfig
+    public function getConfig(): QueueConfig
     {
-        return $this->config;
+        return $this->rabbitQueueConfig;
     }
 
     /**
